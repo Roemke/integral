@@ -1,4 +1,4 @@
-# Ableitungstrainer
+# Integral-Trainer
 Eine kleine Seite basierend auf Javascript um das Integrieren / Stammfunktion finden  
 von ganzrationalen Funktionen zu üben.
 
