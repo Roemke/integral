@@ -1,0 +1,54 @@
+.displayNone {
+  display     :   none;
+}
+.spanFunk {
+  display     :   inline-block;  
+}
+button {
+  margin-left :   1em;
+  margin-right:   1em;        
+}
+
+#divResults{
+  margin-top  : 1em;
+  position    : fixed;
+  top         : 2em;
+  right       : 2em;
+  width       : 8em;
+  height      : 4em;
+  border      : 1px solid darkblue;
+  color       : darkblue;
+  background-color: #CCEBD0;
+  text-align  : center; /*sollte hier ok sein */
+  font-size   : 135%;
+}
+
+#formAufgaben, #divAnleitung {
+  margin-right: 13em;
+}
+
+#divInnerResult {
+  margin-top  : 1.5em;
+  margin-right: auto;
+  margin-left : auto;
+  display     : inline-block;
+}
+.right {
+  float       : right;
+}
+
+.endFloat {
+  clear       : both;
+  
+}
+
+.spoiler {
+  font-size: 90%;
+  visibility: hidden;
+}
+* {
+  box-sizing : border-box;
+  font-size   : 105%;
+}
+
+

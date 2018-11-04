@@ -1,0 +1,45 @@
+<!doctype html>
+<!--
+  Copyright 2017 Karsten Roemke
+  Anregungen an k ponkt roemke at gmx in de
+  Lizenz: MIT / GPL2
+  Unter Verwendung von jQuery und polynomial.js 
+  (polynomial.js: Copyright (c) 2015, Robert Eisele Dual licensed under the MIT or GPL Version 2 licenses.)
+-->
+<head>
+<meta charset='utf-8'>
+<script type="text/JavaScript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/JavaScript" src="js/fraction.js"></script>
+<script type="text/JavaScript" src="js/polynomial.min.js"></script>
+</head>
+<body>
+  <div id='divOutput'>
+    Ausgabeproblem bei Polynom?<br>
+  </div>
+  <script>
+  
+  var p=new Polynomial("4x^3+2x^2+1");
+  $("#divOutput").append("p: " + p.toString() + "<br>");
+  var coeffArray = [1,0,"2","4"]
+  var p1=new Polynomial(coeffArray);
+  $("#divOutput").append("p1: " + p1.toString() + "<br>");
+  $("#divOutput").append("Ableitungen<br>");
+  $("#divOutput").append("p': " + p.derive(1).toString() + "<br>"); 
+  $("#divOutput").append("p1': " + p1.derive(1).toString() + "<br>"); 
+  
+   
+  $("#divOutput").append("<br>jetzt mal Q  <br>");   
+  Polynomial.setField("Q");
+  var pq=new Polynomial("3/4x^3+2/2x^2-1/3x+1/2");
+  $("#divOutput").append("pq: " + pq.toString() + "<br>");
+  var coeffArrayQ = ["1/2","-1/3","2/2","3/4"]
+  var p1q=new Polynomial(coeffArrayQ);
+  $("#divOutput").append("p1q: " + p1q.toString() + "<br>");
+  $("#divOutput").append("Ableitungen<br>");
+  $("#divOutput").append("pq': " + pq.derive(1).toString() + "<br>");  
+  $("#divOutput").append("p1q': " + p1q.derive(1).toString() + "<br>"); 
+  
+
+  </script>    
+  </body>
+</body>

@@ -1,0 +1,30 @@
+<!doctype html>
+<!--
+  Copyright 2017 Karsten Roemke
+  Anregungen an k ponkt roemke at gmx in de
+  Lizenz: MIT / GPL2
+  Unter Verwendung von jQuery und polynomial.js 
+  (polynomial.js: Copyright (c) 2015, Robert Eisele Dual licensed under the MIT or GPL Version 2 licenses.)
+-->
+<head>
+<meta charset='utf-8'>
+<script type="text/JavaScript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/JavaScript" src="js/fraction.js"></script>
+<script type="text/JavaScript" src="js/polynomial.min.js"></script>
+</head>
+<body>
+  <div id='divOutput'>
+  </div>
+  <script>
+  
+  $("#divOutput").append("<br>jetzt mal Q  <br>");   
+  Polynomial.setField("Q");
+  var pq=new Polynomial("2*3/4x^3+2/2x^2-1/3*4*x+1/2");
+  $("#divOutput").append("pq: " + pq.toString() + "<br>");
+  var coeffArrayQ = ["1/2","-1/3*4","2/2","2*3/4"]
+  var p1q=new Polynomial(coeffArrayQ);
+  $("#divOutput").append("p1q: " + p1q.toString() + "<br>");
+  
+  </script>    
+  </body>
+</body>

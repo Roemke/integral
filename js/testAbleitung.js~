@@ -1,0 +1,199 @@
+  "use strict";
+  $.extend({
+    getUrlVars: function(){
+      var vars = [], hash;
+      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+      for(var i = 0; i < hashes.length; i++)
+      {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+      }
+      return vars;
+    },
+    getUrlVar: function(name){
+      return $.getUrlVars()[name];
+    }
+  });
+
+  var correct = 0; //doch noch ne globale
+  //direkt mit ausgabe um die breite des Funktionstextes zu ermitteln  
+  function createAufgaben(anzahl,grad)
+  {
+    var maxWidth = 0;
+    $('#divOutput').html("<form id='formAufgaben'>");
+    
+    for (var i=0; i < anzahl; ++i)
+    {
+      var totalText = '';
+      var funcText = "";
+      var coeffArray=new Array();
+      var coeffFound=false;
+      for (var j=0 ; j<= grad; j++)
+      {
+        var coeff = Math.floor(Math.random()*20) - 10 ;
+        if (Math.random() < 0.3) //0 ein wenig erhoehen
+          coeff = 0;
+        coeffArray.push(coeff);
+      }
+      //jetzt die Ausgabe
+      for (var j=grad ; j > 1 ; j--)
+      {
+        var coeff=coeffArray[j];
+        if (coeff != 0)
+        {            
+            funcText += '+' + coeff + "x<sup>"+j+"</sup>";            
+        }
+      }
+      //x^1
+      coeff = coeffArray[1];
+      if (coeff != 0)
+        funcText += '+' + coeff + "x";            
+      //x^0
+      coeff = coeffArray[0]
+      if (coeff != 0 || funcText == "")
+        funcText += '+' + coeff; 
+      //Bereinigen
+      funcText = funcText.replace(/\+\-/g,"-"); 
+      funcText = funcText.replace(/\+\+/g,"+"); //sollte nicht auftreten 
+      funcText = funcText.replace(/\-1x/g,"x");
+      funcText = funcText.replace(/1x/g,"x");
+      if (funcText[0] == '+')
+        funcText = funcText.slice(1);
+      funcText = "f(x) = " + funcText;
+      
+      //Funktion zusammengebaut
+      //console.log("i ist " + i);
+      totalText+='<fieldset><span class="spanFunk" id="f'+i+ '">' + funcText+'</span>'; //Funktion
+      totalText+='<label for="fs' +i + '">Ableitung: </label>'; //beschriftung
+      totalText+='<input class="inLsg" id="fs' + i + '"></input>';
+      totalText+='<button type="button" id="bCheck'+i+'">check</button>';
+      totalText+='<img id="fsres'+i+ '" src="icons/help-icon.png">';
+      $('#formAufgaben').append(totalText);
+      var width = $('#f'+i).width();
+      $('#bCheck'+i).data("coeffArray",coeffArray).data("grad",grad).data("number",i);      
+      maxWidth = width > maxWidth ? width : maxWidth;
+    }
+    $('#divOutput').append('</form>');
+    //console.log("maxwidth is  " + maxWidth);
+    $('.spanFunk').each(
+      function()
+      {
+        $(this).width(maxWidth+20);
+      });    
+  }
+
+  
+  //daemlich hochzeichen raus, klammern und leerzeichen raus
+  function prepareAnswer(ans)
+  {
+    ans = ans.replace(/\(|\)| /g,"");    
+    ans = ans.toLowerCase(); 
+    while (ans.indexOf("--")>-1 || ans.indexOf("-+")>-1 || ans.indexOf("++")>-1 || ans.indexOf("+-")>-1)
+    {  
+      ans = ans.replace(/\-\+/g,"-"); 
+      ans = ans.replace(/\+\-/g,"-"); 
+      ans = ans.replace(/\-\-/g,"+"); 
+      ans = ans.replace(/\+\+/g,"+");
+      //console.log(ans);
+    }
+    var result ="";
+    for (var i = 0; i < ans.length; ++i)
+    {
+      var c = ans.charCodeAt(i);      
+      if (c < 123)
+      {
+        result += ans[i];
+      }
+      else if (c >= 8308 && c <= 8313) // hoch 4 die 4 ist 52 
+      {
+        c-= 8256
+        result+="^"; 
+        result += String.fromCharCode(c);
+      }
+      else if (c == 178 || c==179) //hoch 2 hoch 3, 2 ist die 50
+      {
+        result += "^";
+        result += String.fromCharCode(c-128);
+      }//sonst nix, weglassen
+    }
+    return result;
+  }
+  //vergleiche object a mit array b
+  function compare(a,b)
+  {
+    if (a.degree() != b.degree())
+      return false;
+    if (a.toString() != b.toString())
+      return false;
+    return true;
+  }
+  function checkAnswer(obj)
+  {
+    var coeffArray=obj.data("coeffArray");
+    var i = obj.data("number");
+    var inField=$('#fs'+i);
+    var answerString = inField.val();
+    answerString = prepareAnswer(answerString);
+    //console.log(answerString.charCodeAt(0));
+    var pAnswer=new Polynomial(answerString);
+    inField.val(pAnswer.toString());
+    //console.log(pAnswer.toString());
+    var pSol = new Polynomial(coeffArray);
+    pSol = pSol.derive(1);
+    //console.log(pSol.toString());
+    
+    var neuBild="icons/no-icon.png";
+    if (compare(pAnswer,pSol))
+    {
+      neuBild = 'icons/check-icon.png';
+      $("#bCheck"+i).prop("disabled",true);
+      $("#fs"+i).prop("disabled",true);
+      correct++;
+      $("#spanCount").html(correct);
+      
+    }
+    $('#fsres'+i).fadeOut(500, 
+      function(){
+        $('#fsres'+i).attr('src',neuBild).fadeIn(500)
+      });
+    
+    
+  }
+  
+  $(document).ready(
+  function()
+  {
+    var grad = $.getUrlVar("inGrad");
+    var anzahl = $.getUrlVar("inAnzahl");
+    if (typeof(grad) ==="undefined" || typeof(anzahl) === "undefined")
+    { //keine Parameter uebergeben, zeige Formular fuer config
+      $('#formConfig').removeClass("displayNone");
+      
+      $('#bConfigOk').click(function()
+      {
+        var grad=parseInt($('#inGrad').val());
+        var anzahl=parseInt($('#inAnzahl').val());
+        if (!isNaN(grad) && !isNaN(anzahl))
+        { //weiterleiten, sonst halt nichts tun
+          var url=window.location.href.split('?')[0];
+          window.location.href= url+("?inGrad="+grad+"&inAnzahl="+anzahl);        
+        }
+      });
+    }
+    else
+    {
+      $('#divOutput').html("");
+      $('#divAnleitung').removeClass("displayNone");
+      $('#divResults').removeClass("displayNone");
+      $('#divResults').html("<div id='divInnerResult'><span id='spanCount'> 0 </span>  <span> / "+anzahl+"</span></div>");
+      console.log("create " + anzahl + " Aufgaben vom Grad " + grad );
+      createAufgaben(anzahl,grad);//gibt direkt aus
+      //haenge event handler an jedes inputfeld
+      $('#divOutput form').on('click','button',
+      function()
+      {
+        var result = checkAnswer($(this));
+      });
+    }
+  });

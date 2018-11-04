@@ -1,0 +1,83 @@
+<!doctype html>
+<!--
+  Copyright 2017 Karsten Roemke
+  Anregungen an k ponkt roemke at gmx in de
+  Lizenz: MIT / GPL2
+  Unter Verwendung von jQuery und polynomial.js 
+  (polynomial.js: Copyright (c) 2015, Robert Eisele Dual licensed under the MIT or GPL Version 2 licenses.)
+-->
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/testAbleitung.css">
+<script type="text/JavaScript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/JavaScript" src="js/fraction.js"></script>
+<script type="text/JavaScript" src="js/polynomial.js"></script>
+<script type="text/JavaScript" src="js/modifikation.js"></script> <!-- Aenderung an Fraction -->
+<script type="text/JavaScript" src="js/testStammFunk.js"></script>
+</head>
+<body>
+  <form id="formConfig" class="displayNone" action="testAbleitung.html" method="get">
+    <ul>
+      <li>
+        <label for="inAnzahl">Anzahl:</label>
+        <input id="inAnzahl" type="number" min="1">
+      </li>
+      <li>
+        <label for="inGrad">maximaler Grad:</label>
+        <input id="inGrad" type="number" min="1">
+      </li>
+      <li>
+        <label for="inBruch">Br&uuml;che m&ouml;glich:</label>
+        <input id="inBruch" type="checkbox">
+      </li>
+      <li>
+        <label for="inParameter">Parameter m&ouml;glich:</label>
+        <input id="inParameter" type="checkbox">
+      </li>
+      <li>
+        <label for="inLsg">L&ouml;sung zeigen (button) :</label>
+        <input id="inLsg" type="checkbox">
+      </li>
+      <li>
+        <label for="bConfigOk"> </label>
+        <button id="bConfigOk" type="button">ok</button>   
+      </li>
+      <li class="topline">
+        <label>15 mal komplett max Grad 5 </label>
+        <a href="./index.html?inGrad=5&inAnzahl=15&inBruch=true&inParameter=true&inLsg=true"
+        id="btrain15">na gut</a>   
+      </li>
+      <li>
+        <label>15 mal komplett max Grad 5 ohne Hilfe </label>
+        <a href="./index.html?inGrad=5&inAnzahl=15&inBruch=true&inParameter=true"
+        id="btrain15oH">oh je</a>   
+      </li>      
+    </ul>
+  </form>
+  <p>Sie finden diese Seite im Internet unter 
+  	<a  href="http://zb42.de/integral/">
+  	http://zb42.de/integral/</a>, Hinweise gern an k Ponkt roemke at gmx
+  	in de, wie immer ohne jede Gew&auml;hr ...</p>
+  <div class="displayNone" id="divResults"></div>
+  <div id="divAnleitung" class="displayNone">
+    <p>Trainieren Sie das Bestimmen von Stammfunktionen </p> 
+    <p>Zur Eingabe (ist vom Browser ab&auml;ngig): Falls der Exponent kleiner als neun ist, z.B. drei so geben Sie einfach x^3 ein, das
+      ^&ndash;Zeichen wird eventuell angezeigt.<br>
+      Bei Exponenten größer als neun m&uuml;ssen Sie eventuell zweimal die Taste ^ dr&uuml;cken, umd das  ^-Zeichen 
+      zu bekommen.  <br>
+      Beispiel für den Exponenten 10: Eingabe x^10<br>
+      Ein "Malpunkt" / &middot; wird mit dem * eingeben oder man l&auml;&szlig;t ihn weg. Also z.B. 42x oder auch 42*x. <br>
+      Bei Aufgaben mit Parametern ist es aktuell nicht m&ouml;glich einen durchaus richtigen Bruch wie z.B. c/2 einzugeben, 
+      falls ich Zeit finde korrigiere ich es noch. Statt dessen  muss 1/2 c eingegeben werden.
+    </p>
+    <p>
+      Danach klicken Sie auf check. Der Computer korrigiert ggf. die Schreibweise Ihrer Eingabe. Sollte das nicht klappen, so steht ein NaN im Formularfeld. Danach pr&uuml;ft er, ob 
+      Sie eine richtige Stammfunktion angegeben haben. 
+    </p>
+    <p class="right">Viel Erfolg</p>
+    <br class="endFloat">
+  </div>
+  <div id='divOutput'></div>
+  </body>
+</body>

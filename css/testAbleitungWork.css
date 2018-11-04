@@ -1,0 +1,99 @@
+.displayNone {
+  display     :   none;
+}
+.spanFunk {
+  display     :   inline-block;  
+}
+button {
+  margin-left :   1em;
+  margin-right:   1em;        
+}
+
+#divResults{
+  position    : fixed;
+  top         : 1em;
+  right       : 1em;
+  padding     : 0.2em 0.5em; /* oben/unten links/rechts */
+  border      : 1px solid darkblue;
+  color       : darkblue;
+  background-color: rgba(204, 235, 208, 0.6);
+  text-align  : center; /*sollte hier ok sein */
+}
+
+#formAufgaben, #divAnleitung {
+}
+
+.right {
+  float       : right;
+}
+
+.endFloat {
+  clear       : both;
+  
+}
+
+.spoiler {
+  font-size: 90%;
+  visibility: hidden;
+}
+* {
+  box-sizing  : border-box;
+  font-size   : 105%;
+}
+
+#formConfig {
+}
+#formConfig ul {
+  padding         : 0px;
+}
+#formConfig  ul > li { /*direkte nachfahren mit > */
+  display         : flex;
+  flex-flow       : row wrap; /* row - Einzel-Elemente bilden Zeilen, wrap umbruch ok*/
+  align-items     : center; /* vertikal */
+  margin-top      : 0.5em;  
+}
+
+#formConfig  ul > li > label{
+  flex-basis  : 70%;
+  flex-shrink : 0;
+  max-width   : 20em;
+}
+
+#formConfig  ul > li > input{
+  margin      : 0pt; /*sonst passen die 30% nicht */  
+  flex-basis  : 30%;  
+  flex-shrink : 0;
+}
+
+ul { /*habe keine Listen mit Punkt */
+  list-style: none;  
+}
+#formConfig input[type="number"] {
+  width       : 4em;  
+  max-width   : 4em;
+}
+#formConfig input[type="checkbox"] {
+  max-width   : 2em;
+}
+#formConfig button {
+  max-width   : 4em;
+  width       : 4em;
+  flex-basis  : 30%;
+  margin      : 0pt;
+}
+
+#formConfig ul > li.topline {
+  border-top  : 1px solid black;
+  margin-top  : 2em;
+  padding-top : 1em;
+
+}
+
+#formConfig ul > li a {
+  -webkit-appearance  : button;
+  -moz-appearance     : button;
+  appearance          : button;
+  padding             : 0.2em 0.5em; /* oben/unten links/rechts */
+  color               : black;
+  text-decoration     : none;
+}
